@@ -1,76 +1,28 @@
+# agent.py – models and model handling; other files import from here
+
 import requests
-import json
 
-ollama_url = "http://127.0.0.1:11434/api/chat"
+OLLAMA_BASE_URL = "http://127.0.0.1:11434"
+OLLAMA_CHAT_URL = f"{OLLAMA_BASE_URL}/api/chat"
 
-def getWeather(city):
-    data = {
-        "Chennai": "20°C",
-        "Mumbai": "25°C",
-        "Delhi": "22°C",
-        "Kolkata": "23°C",
-        "Bangalore": "24°C",
-        "Hyderabad": "26°C",
-        "Ahmedabad": "27°C",
-        "Jaipur": "28°C",
-        "Lucknow": "29°C",
-        "Pune": "30°C",
-    }
-    return data.get(city, "Unknown city")
+DEFAULT_MODEL = "qwen2.5:3b"
 
-tools = {
-    "getWeather": getWeather
+MODELS = {
+    "default": "qwen2.5:3b",
+    "small": "qwen2.5:3b",
+    "medium": "qwen2.5:7b",
+    "large": "llama3.2:latest",
 }
 
-messages = [
-    {
-        "role": "system",
-        "content": "You are an agent. If the user asks about weather, respond exactly in this format: CALL_TOOL:getWeather:<city>. Otherwise answer normally."
-    },
-    {
-        "role": "user",
-        "content": "Whats the weather in Chennai?"
+
+def chat(messages, model=None, stream=False):
+    """Call the model with the given messages. Other files use this only."""
+    payload = {
+        "model": model or DEFAULT_MODEL,
+        "messages": messages,
+        "stream": stream,
     }
-]
-
-response = requests.post(
-    ollama_url, 
-    json={
-        "model":"qwen2.5:3b",
-        "messages":messages,
-        "stream": False
-    })
-
-print("STATUS:", response.status_code)
-print("RAW TEXT:")
-print(response.text)
-print("-" * 50)
-
-data = response.json()
-assistantResponse = response.json()["message"]["content"]
-print("ASSISTANT RESPONSE:", assistantResponse)
-
-if assistantResponse.startswith("CALL_TOOL:getWeather:"):
-    city = assistantResponse.split(":", 2)[2].strip()
-    result = getWeather(city)
-
-    messages.append({"role": "assistant", "content": assistantResponse})
-    messages.append({"role": "user", "content": f"Tool result: {result}. Answer the user using this result only."})
-
-    final = requests.post(
-        ollama_url,
-        json={
-            "model": "qwen2.5:3b",
-            "messages": messages,
-            "stream": False
-        }
-    )
-
-    print("FINAL RAW TEXT:")
-    print(final.text)
-    print("-" * 50)
-
-    final_data = final.json()
-    print("FINAL ANSWER:", final_data["message"]["content"])
-else:
-    print("FINAL ANSWER:", assistantResponse)
+    r = requests.post(OLLAMA_CHAT_URL, json=payload, timeout=60)
+    r.raise_for_status()
+    data = r.json()
+    return data["message"]["content"]
