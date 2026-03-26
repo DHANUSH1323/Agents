@@ -1,21 +1,5 @@
-import os
+import enable_langfuse_tracing  # noqa: F401
 from langfuse import get_client
-import dotenv
-
-dotenv.load_dotenv()
-
-client = get_client()
-
-if client.auth_check():
-    print("Langfuse authentication successful")
-else:
-    print("Langfuse authentication failed")
-
-
-
-from openinference.instrumentation.smolagents import SmolagentsInstrumentor
- 
-SmolagentsInstrumentor().instrument()
 
 from smolagents import (
     CodeAgent,
@@ -24,6 +8,13 @@ from smolagents import (
     VisitWebpageTool,
     InferenceClientModel,
 )
+
+client = get_client()
+
+if client.auth_check():
+    print("Langfuse authentication successful")
+else:
+    print("Langfuse authentication failed")
 
 model = InferenceClientModel(
     model_id="deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"

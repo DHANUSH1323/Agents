@@ -1,5 +1,7 @@
 # agent.py – models and model handling; other files import from here
 
+import enable_langfuse_tracing  # noqa: F401
+from langfuse import observe
 import requests
 
 OLLAMA_BASE_URL = "http://127.0.0.1:11434"
@@ -15,6 +17,7 @@ MODELS = {
 }
 
 
+@observe(name="ollama_chat", as_type="generation")
 def chat(messages, model=None, stream=False):
     """Call the model with the given messages. Other files use this only."""
     payload = {

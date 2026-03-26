@@ -1,3 +1,5 @@
+import enable_langfuse_tracing  # noqa: F401
+
 from smolagents import CodeAgent, tool, InferenceClientModel
 # from huggingface_hub import login
 

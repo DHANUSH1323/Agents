@@ -1,3 +1,5 @@
+import enable_langfuse_tracing  # noqa: F401
+
 from smolagents import CodeAgent, DuckDuckGoSearchTool, FinalAnswerTool, InferenceClientModel, Tool, tool, VisitWebpageTool
 
 @tool

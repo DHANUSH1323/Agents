@@ -1,3 +1,5 @@
+import enable_langfuse_tracing  # noqa: F401
+
 from smolagents import Tool, CodeAgent, InferenceClientModel
 
 class SuperHeroThemeParty(Tool):
