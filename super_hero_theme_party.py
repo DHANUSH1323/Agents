@@ -28,7 +28,10 @@ class SuperHeroThemeParty(Tool):
 
 
 party_theme_tool = SuperHeroThemeParty()
-agent = CodeAgent(tools = [party_theme_tool], model = InferenceClientModel())
+agent = CodeAgent(
+    tools=[party_theme_tool],
+    model=InferenceClientModel(provider="hf-inference"),
+)
 
 result = agent.run("What would be a good superhero party idea for a 'villain masquerade' theme?")
 

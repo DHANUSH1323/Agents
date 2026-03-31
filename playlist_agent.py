@@ -26,6 +26,9 @@ def suggest_menu(occasion: str) -> str:
         return "Custom menu for the butler."
 
 
-agent = CodeAgent(tools=[suggest_menu], model=InferenceClientModel())
+agent = CodeAgent(
+    tools=[suggest_menu],
+    model=InferenceClientModel(provider="hf-inference"),
+)
 
 agent.run("Prepare a normal meal for party.")

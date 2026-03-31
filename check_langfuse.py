@@ -17,7 +17,8 @@ else:
     print("Langfuse authentication failed")
 
 model = InferenceClientModel(
-    model_id="deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+    model_id="deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+    provider="hf-inference",
 )
 
 search_agent = ToolCallingAgent(

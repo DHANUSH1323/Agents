@@ -59,7 +59,10 @@ docs_processed = text_splitter.split_documents(source_docs)
 party_planning_retriever = PartyPlanningRetrieverTool(docs_processed)
 
 # Initialize the agent
-agent = CodeAgent(tools=[party_planning_retriever], model=InferenceClientModel())
+agent = CodeAgent(
+    tools=[party_planning_retriever],
+    model=InferenceClientModel(provider="hf-inference"),
+)
 
 # Example usage
 response = agent.run(

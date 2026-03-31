@@ -12,7 +12,10 @@ load_dotenv(_ROOT / ".env")
 from smolagents import CodeAgent, GoogleSearchTool, InferenceClientModel, VisitWebpageTool
 from tools.cargo_travel_time import cargo_travel_time
 
-model = InferenceClientModel(model_id = "Qwen/Qwen2.5-Coder-32B-Instruct")
+model = InferenceClientModel(
+    model_id="Qwen/Qwen2.5-Coder-32B-Instruct",
+    provider="hf-inference",
+)
 
 task = """Find all Batman filming locations in the world, calculate the time to transfer via cargo plane to here (we're in Gotham, 40.7128° N, 74.0060° W), and return them to me as a pandas dataframe.
 Also give me some supercar factories with the same cargo plane transfer time."""

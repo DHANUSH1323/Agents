@@ -73,7 +73,7 @@ agent = CodeAgent(
         SuperheroPartyThemeTool(),
 	FinalAnswerTool()
     ], 
-    model=InferenceClientModel(),
+    model=InferenceClientModel(provider="hf-inference"),
     max_steps=10,
     verbosity_level=2
 )
