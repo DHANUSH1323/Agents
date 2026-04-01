@@ -1,0 +1,8 @@
+gradio
+requests
+pandas
+python-dotenv
+smolagents
+duckduckgo-search
+openpyxl
+PyPDF2
